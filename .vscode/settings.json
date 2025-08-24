@@ -1,0 +1,7 @@
+{
+  "python.defaultInterpreterPath": "/Users/Lithos/Documents/GitHub/future_gate/.venv/bin/python",
+  "python.terminal.activateEnvironment": true,
+  "terminal.integrated.env.osx": {
+    "PIP_DISABLE_PIP_VERSION_CHECK": "1"
+  }
+}
