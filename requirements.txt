@@ -1,4 +1,5 @@
 streamlit==1.47.0
 PyYAML==6.0.2
 # 可选：如需在线 AI 辅助建议，解注下一行并在 Cloud Secrets 配置 OPENAI_API_KEY
-# openai>=1.0.0
+openai>=1.0.0
+Pillow
