@@ -29,7 +29,8 @@ def main():
 
     # 顶部标题（登录后）
     st.title("AI 辅助龙大生存指南与故事编写")
-    st.caption(f"欢迎，{st.session_state.get('username','')} · OpenRouter 驱动")
+    user_display = st.session_state.get('username','') or ("访客" if st.session_state.get('guest_login') else "")
+    st.caption(f"欢迎，{user_display} · OpenRouter 驱动")
 
     # 退出登录（侧边）
     with st.sidebar:

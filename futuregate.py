@@ -163,7 +163,15 @@ def page_story_mode():
     with colA:
         style = st.radio("小说风格", ["诙谐幽默", "黑暗惊悚"], horizontal=True, key="novel_style")
     with colB:
-        model = st.selectbox("模型（OpenRouter）", ["openai/gpt-5-chat", "openai/gpt-5"], index=0)
+        if st.session_state.get("guest_login"):
+            free_models = [
+                "deepseek/deepseek-r1:free",
+                "qwen/qwen3-8b:free",
+                "google/gemini-2.0-flash-exp:free",
+            ]
+            model = st.selectbox("模型（OpenRouter）", free_models, index=0)
+        else:
+            model = st.selectbox("模型（OpenRouter）", ["openai/gpt-5-chat", "openai/gpt-5"], index=0)
     if st.button("✨ 生成短篇", use_container_width=True):
         try:
             decs = decisions_summary(layers, picks)

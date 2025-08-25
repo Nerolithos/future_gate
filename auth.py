@@ -161,11 +161,17 @@ def login_gate() -> bool:
     colL, colC, colR = st.columns([1, 1.1, 1])
     with colC:
         st.markdown(f'<div class="login-title">{LOGIN_TITLE}</div>', unsafe_allow_html=True)
-        st.markdown('<div class="login-subtitle">请先登录以进入：仅供指定用户体验。</div>', unsafe_allow_html=True)
+        st.markdown('<div class="login-subtitle">大模型辅助解答港中深相关问题/大模型辅助编故事（试运行）。</div>', unsafe_allow_html=True)
 
         username = st.text_input("用户名", key="login_user", placeholder="例如：Jinghong Li")
         password = st.text_input("密码", type="password", key="login_pass", placeholder="请输入 4 位数字密码")
-        submit = st.button("登录", use_container_width=True)
+        c1, c2 = st.columns(2)
+        with c1:
+            submit = st.button("登录", use_container_width=True)
+        with c2:
+            guest = st.button("无账号登录", use_container_width=True)
+
+        st.caption("需要申请账号，以使用非免费大模型，请向 124090960 发邮件说明")
 
         try:
             user_table = dict(st.secrets.get("users", {}))
@@ -186,8 +192,16 @@ def login_gate() -> bool:
                 else:
                     st.error("密码错误")
             else:
+                st.session_state["guest_login"] = False
                 st.session_state["pending_user"] = username
                 st.session_state["need_face_captcha"] = True
                 st.rerun()
+
+        # 无账号登录：进入访客模式，同样需要表情验证
+        if 'guest' in locals() and guest:
+            st.session_state["guest_login"] = True
+            st.session_state["pending_user"] = "访客"
+            st.session_state["need_face_captcha"] = True
+            st.rerun()
 
     st.stop()

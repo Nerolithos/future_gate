@@ -69,7 +69,15 @@ def page_cuhksz_mode():
     st.markdown("---")
     col1, col2 = st.columns(2)
     with col1:
-        model = st.selectbox("模型（OpenRouter）", ["openai/gpt-5-chat", "openai/gpt-5"], index=0, key="cuhksz_model")
+        if st.session_state.get("guest_login"):
+            free_models = [
+                "deepseek/deepseek-r1:free",
+                "qwen/qwen3-8b:free",
+                "google/gemini-2.0-flash-exp:free",
+            ]
+            model = st.selectbox("模型（OpenRouter）", free_models, index=0, key="cuhksz_model")
+        else:
+            model = st.selectbox("模型（OpenRouter）", ["openai/gpt-5-chat", "openai/gpt-5"], index=0, key="cuhksz_model")
     with col2:
         temp = st.slider("随机性", 0.0, 1.2, 0.7, 0.05, key="cuhksz_temp")
 
