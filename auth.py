@@ -27,7 +27,7 @@ def _imgfile_to_data_url(uploaded_file) -> str:
 def check_expression_with_openrouter(data_url: str, target_en: str, model: str = "openai/gpt-4o-mini") -> dict:
     client = get_openrouter_client()
     if client is None:
-        raise RuntimeError("未配置 OPENROUTER_API_KEY")
+        raise RuntimeError("未配置 OpenRouter API Key（请在 Streamlit 的 Secrets 中设置 openrouter.api_key 或配置环境变量 OPENROUTER_API_KEY）")
 
     prompt = (
         "You are a strict vision validator for a human-verification task.\n"
@@ -173,8 +173,13 @@ def login_gate() -> bool:
 
         st.caption("需要申请账号，以使用非免费大模型，请向 124090960 发邮件说明")
 
+        # 从 Streamlit Secrets 获取用户表：优先 auth.users，其次根级 users
+        user_table = {}
         try:
-            user_table = dict(st.secrets.get("users", {}))
+            if "auth" in st.secrets and isinstance(st.secrets["auth"], dict) and "users" in st.secrets["auth"]:
+                user_table = dict(st.secrets["auth"]["users"])
+            elif "users" in st.secrets:
+                user_table = dict(st.secrets.get("users", {}))
         except Exception:
             user_table = {}
 

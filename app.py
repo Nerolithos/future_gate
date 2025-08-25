@@ -1,11 +1,11 @@
 # -*- coding: utf-8 -*-
 """
 AI 辅助龙大生存指南与故事编写
-- 启动即登录（从 .streamlit/secrets.toml 的 [users] 读取用户/密码）
+- 登录：从 Streamlit 的 st.secrets（auth.users 或根级 users）读取用户表
 - 密码正确后进行“表情验证码”（摄像头 + OpenRouter 视觉模型）
 - 登录后进入首页：① AI 写故事（0~5 层 + 结局 + 小说生成）② 提问 CUHKSZ（两层选择 + Prompt 模板）
 
-重构说明：非入口与核心调度已拆分到独立模块：
+模块说明：
 - auth.py：登录与 AI 表情验证码
 - futuregate.py：AI 生成故事功能
 - cuhksz.py：提问 CUHKSZ 功能

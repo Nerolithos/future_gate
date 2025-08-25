@@ -1,5 +1,10 @@
 """
 Shared AI utilities for OpenRouter access.
+
+Secrets precedence (for Streamlit Cloud deployment):
+- st.secrets["openrouter"]["api_key"] (recommended)
+- st.secrets["OPENROUTER_API_KEY"] (legacy)
+- environment variable OPENROUTER_API_KEY (fallback)
 """
 from __future__ import annotations
 from typing import List, Dict, Optional, Any
@@ -19,9 +24,19 @@ def get_openrouter_client() -> Optional[Any]:
     if not _SDK_OK:
         return None
     key = ""
+    # Try nested secrets first: st.secrets["openrouter"]["api_key"]
     try:
-        key = st.secrets.get("OPENROUTER_API_KEY", "")
+        if isinstance(st.secrets, dict):
+            key = st.secrets.get("openrouter", {}).get("api_key", "") or st.secrets.get("OPENROUTER_API_KEY", "")
+        else:
+            # st.secrets is a Secrets object; support attribute/index access
+            key = (
+                (st.secrets["openrouter"]["api_key"] if "openrouter" in st.secrets else "")
+                or st.secrets.get("OPENROUTER_API_KEY", "")
+            )
     except Exception:
+        key = ""
+    if not key:
         key = os.getenv("OPENROUTER_API_KEY", "")
     if not key:
         return None
@@ -35,6 +50,6 @@ def get_openrouter_client() -> Optional[Any]:
 def generate_chat(messages: List[Dict[str, str]], model: str, temperature: float = 0.9) -> str:
     client = get_openrouter_client()
     if client is None:
-        raise RuntimeError("未找到 OPENROUTER_API_KEY。请在 .streamlit/secrets.toml 或环境变量中配置。")
+        raise RuntimeError("未找到 OpenRouter API Key。请在 Streamlit secrets 中设置 openrouter.api_key，或设置环境变量 OPENROUTER_API_KEY。")
     resp = client.chat.completions.create(model=model, messages=messages, temperature=temperature)
     return (resp.choices[0].message.content or "").strip()
