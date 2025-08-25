@@ -39,14 +39,14 @@ def main():
 
     # 模式选择
     try:
-        mode = st.segmented_control("选择模式：", options=["AI 写故事", "提问 CUHKSZ"], default="AI 写故事")
+        mode = st.segmented_control("选择模式：", options=["提问 CUHKSZ", "AI 写故事"], default="提问 CUHKSZ")
     except Exception:
-        mode = st.radio("选择模式：", ["AI 写故事", "提问 CUHKSZ"], horizontal=True, index=0)
+        mode = st.radio("选择模式：", ["提问 CUHKSZ", "AI 写故事"], horizontal=True, index=0)
 
-    if mode == "AI 写故事":
-        page_story_mode()
-    else:
+    if mode == "提问 CUHKSZ":
         page_cuhksz_mode()
+    else:
+        page_story_mode()
 
 if __name__ == "__main__":
     main()

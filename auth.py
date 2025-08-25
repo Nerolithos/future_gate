@@ -202,11 +202,13 @@ def login_gate() -> bool:
                 st.session_state["need_face_captcha"] = True
                 st.rerun()
 
-        # 无账号登录：进入访客模式，同样需要表情验证
+        # 无账号登录：进入访客模式（取消表情验证，直接进入）
         if 'guest' in locals() and guest:
             st.session_state["guest_login"] = True
-            st.session_state["pending_user"] = "访客"
-            st.session_state["need_face_captcha"] = True
+            st.session_state["logged_in"] = True
+            st.session_state["username"] = "访客"
+            for k in ("need_face_captcha", "face_target", "pending_user"):
+                st.session_state.pop(k, None)
             st.rerun()
 
     st.stop()
