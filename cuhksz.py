@@ -8,7 +8,7 @@ from typing import Dict
 
 import streamlit as st
 
-from ai_utils import generate_chat
+from ai_utils import generate_chat, stream_chat
 
 
 BASE_DIR = Path(__file__).resolve().parent
@@ -87,7 +87,11 @@ def page_cuhksz_mode():
                 {"role": "system", "content": "You are an expert counselor for CUHKSZ students. Be precise and kind. Answer in Chinese."},
                 {"role": "user", "content": final_prompt},
             ]
-            st.session_state["cuhksz_answer"] = generate_chat(messages, model=model, temperature=temp)
+            ph = st.empty(); buf = []
+            for chunk in stream_chat(messages, model=model, temperature=temp):
+                buf.append(chunk)
+                ph.markdown("".join(buf))
+            st.session_state["cuhksz_answer"] = "".join(buf).strip()
         except Exception as e:
             st.error(f"生成失败：{e}")
 

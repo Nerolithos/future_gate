@@ -12,7 +12,7 @@ from zoneinfo import ZoneInfo
 import yaml
 import streamlit as st
 
-from ai_utils import generate_chat
+from ai_utils import generate_chat, stream_chat
 
 
 BASE_DIR = Path(__file__).resolve().parent
@@ -177,8 +177,13 @@ def page_story_mode():
             decs = decisions_summary(layers, picks)
             messages = build_novel_messages(STORY_BACKGROUND, st.session_state.role0 or "一位路人",
                                             prefix, decs, beijing_date_str(), style)
-            st.session_state.novel_text = generate_chat(messages, model=model,
-                                                        temperature=0.9 if style == "诙谐幽默" else 0.8)
+            temp = 0.9 if style == "诙谐幽默" else 0.8
+            placeholder = st.empty()
+            buf = []
+            for chunk in stream_chat(messages, model=model, temperature=temp):
+                buf.append(chunk)
+                placeholder.markdown("".join(buf))
+            st.session_state.novel_text = "".join(buf).strip()
         except Exception as e:
             st.error(f"生成失败：{e}")
     if st.session_state.novel_text:

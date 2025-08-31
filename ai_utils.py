@@ -53,3 +53,51 @@ def generate_chat(messages: List[Dict[str, str]], model: str, temperature: float
         raise RuntimeError("未找到 OpenRouter API Key。请在 Streamlit secrets 中设置 openrouter.api_key，或设置环境变量 OPENROUTER_API_KEY。")
     resp = client.chat.completions.create(model=model, messages=messages, temperature=temperature)
     return (resp.choices[0].message.content or "").strip()
+
+
+def stream_chat(messages: List[Dict[str, str]], model: str, temperature: float = 0.9):
+    """
+    Generator that yields incremental text chunks from OpenRouter streaming.
+    Usage:
+        for chunk in stream_chat(msgs, model, temperature):
+            ... append chunk ...
+    """
+    client = get_openrouter_client()
+    if client is None:
+        raise RuntimeError("未找到 OpenRouter API Key。请在 Streamlit secrets 中设置 openrouter.api_key，或设置环境变量 OPENROUTER_API_KEY。")
+    try:
+        stream = client.chat.completions.create(
+            model=model,
+            messages=messages,
+            temperature=temperature,
+            stream=True,
+        )
+    except TypeError:
+        # 某些 SDK 版本用 stream=True 参数不兼容；尝试 client.chat.completions.stream
+        stream = client.chat.completions.stream(
+            model=model,
+            messages=messages,
+            temperature=temperature,
+        )
+
+    # 兼容 openai>=1.0 的事件流接口
+    for event in stream:
+        try:
+            # event 有可能是 delta 事件或包含 choices 数组
+            if hasattr(event, "choices") and event.choices:
+                delta = getattr(event.choices[0], "delta", None) or getattr(event.choices[0], "message", None)
+                if delta:
+                    content = getattr(delta, "content", None)
+                    if content:
+                        yield content
+            elif hasattr(event, "data"):
+                # 某些实现中 event.data 里有 chunk
+                data = event.data
+                content = None
+                if isinstance(data, dict):
+                    content = ((data.get("choices") or [{}])[0].get("delta") or {}).get("content")
+                if content:
+                    yield content
+        except Exception:
+            # 安静跳过异常片段
+            pass
