@@ -3,12 +3,40 @@
 
 
 - Huxiaoqian 的 GFN 1000 无需签到。
+
 - SDS 学生在大一末尾选择分科（CSE/DS/BDT)之后大二的 CSE 学生无法选修 STA2XXX 科目。sis 报错信息：“For Y2-Y3 DSBDT; Y4 (CSE; FE); SSE; INDAZ; ASEIN; ASEIZ; BIFC students. Students should take MAT1001 or MAT1011 or MAT1003 or MAT1010 first. Exclusion:ECO2121 or STA2003 or STA2001H.”
+
 - 根据 syllabus，ACT3311 有签到，ACT4321 没有签到。
+
 - 对于 MAT 2040，Hedongdong 是比较受欢迎；同时这节课不要求签到。
+
 - GFH 不要选 Boucher. A. 的课，很难拿 A，全是印尼学生和其他外国学生，而且强制签到+单人 40 分钟演讲+1600 字期末论文。推荐 Lara Hu，或者 Chris，或者另一个同属法国籍的女性教授。（他们都不要求签到，演讲比较松）
-- ACT4131 只有秋季学期课；PED2XXX 只有春季学期课
+
+- ACT4131 只有秋季学期课；PED2XXX 只有春季学期课。FIN4120 只有秋季课。
+
+- ENG 1001/1002 的 吴敬轩(J. Wu)人很好，给分很好，要点名签到。
+
+- CHI 1000 的 Jin Jia 教授要纸质签到，期末选择题难度还行，上课没有特别认真的话不要去做附加题。
+
+- DDA 2001 和 STA 2001 的 高平(Ping. Gao)教授课上似乎一直是有很多高年级学生，不建议大一学生选，硬学也不一定拿 A range。
+
+- Zicheng Wang 教授的 DDA2001 讲的比较清晰。
+
 - ENG 2001 Yao yao 给分比较松。
+
+- CEC 1000 的王薛时教授没有什么课业压力，不用小组演讲，纸质签到。
+
+- CSC 3200 是 2025 秋 新增的科目，前置课程为 3100(Data Structure) 和 3002(CPP basics)，对于大二的 SDS 学生可能比较难。
+
+- CSC 1004 没有任何形式的考试。
+
+- MAT 1001 都不签到。
+
+- MAT 1001 的 Liang Client 讲课很好，人很亲切，标准英伦腔，语速比较慢。
+
+- MAT 1001的 P. Kam 似乎是新加坡人，语速比较慢，口音不重。
+
+- CSC 1003 (Java)的 李文烨(W. Li)教授讲课还行，给分不错，口音稍重，不签到。CSC 1003 的期中和期末考试是统一的笔试。
 
 - 校园网联网问题：如果使用校园网络“CUHK(SZ)"发现无法联网，试图访问百度发现报错：This connection is not private，并将百度的域名解析为 ”m.baidu.com“，说明你被学校防火墙拦截。这可能因为：证书过期或弹出式登录页面未正常显示。
   你应该：在设置中选择”CUHK(SZ)“并选择”忘记该网络“或者”注销“，并重新联网，此时会弹出登录页面，填写并登录即可解决。
