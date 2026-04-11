@@ -5,7 +5,7 @@ Online decision game that produces text by LLM
 
 \# [L3] Future Gate
 
-A/B 文字冒险 +（可选）AI 辅助建议，基于 Streamlit 1.47.0。
+A/B 文字冒险 +（可选）[AI 辅助建议](https://blog.nero-lithos.com/courseai/)，基于 Streamlit 1.47.0。
 
 \# 本地运行
 
